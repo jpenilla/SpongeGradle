@@ -24,6 +24,10 @@
  */
 package org.spongepowered.gradle.common;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public final class Constants {
 
     public static final String NAME = "SpongeGradle";
@@ -48,7 +52,10 @@ public final class Constants {
     }
 
     public static final class Plugins {
-        public static final String SHADOW_PLUGIN_ID = "com.github.johnrengelman.shadow";
+        public static final List<String> SHADOW_PLUGIN_IDS = Collections.unmodifiableList(Arrays.asList(
+                "com.github.johnrengelman.shadow",
+                "io.github.goooler.shadow"
+        ));
         public static final String SHADOW_JAR_TASK_NAME = "shadowJar";
 
         private Plugins() {
