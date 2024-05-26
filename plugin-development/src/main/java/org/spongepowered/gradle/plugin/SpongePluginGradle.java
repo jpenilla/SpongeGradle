@@ -279,7 +279,15 @@ public final class SpongePluginGradle implements ProjectOrSettingsPlugin {
 
         this.project.afterEvaluate(p -> {
             final TaskProvider<AbstractArchiveTask> archiveTask;
-            if (Constants.Plugins.SHADOW_PLUGIN_IDS.stream().anyMatch(id -> p.getPlugins().hasPlugin(id))) {
+
+            boolean hasShadow = false;
+            for (String id : Constants.Plugins.SHADOW_PLUGIN_IDS) {
+                if (p.getPlugins().hasPlugin(id)) {
+                    hasShadow = true;
+                    break;
+                }
+            }
+            if (hasShadow) {
                 archiveTask = p.getTasks().named(Constants.Plugins.SHADOW_JAR_TASK_NAME, AbstractArchiveTask.class);
             } else {
                 archiveTask = p.getTasks().named(JavaPlugin.JAR_TASK_NAME, AbstractArchiveTask.class);
