@@ -22,6 +22,8 @@ subprojects {
     apply(plugin = "net.kyori.indra.licenser.spotless")
     apply(plugin = "net.kyori.indra.git")
 
+    val indra = extensions.getByType(IndraExtension::class)
+    val testTargets = listOf(11, 17, 21)
     if (project.name != "spongegradle-testlib") {
         plugins.apply(JavaGradlePluginPlugin::class)
         apply(plugin = "com.gradle.plugin-publish")
@@ -43,6 +45,16 @@ subprojects {
                     implementation(project(":spongegradle-testlib"))
                 }
                 testType.set(TestSuiteType.FUNCTIONAL_TEST)
+                targets {
+                    testTargets.forEach { runtimeVersion ->
+                        register("functionalTestJava$runtimeVersion") {
+                            testTask.configure {
+                                javaLauncher = project.extensions.getByType(JavaToolchainService::class).launcherFor { languageVersion = JavaLanguageVersion.of(runtimeVersion) }
+                                onlyIf { JavaVersion.current().ordinal + 1 != runtimeVersion && indra.javaVersions().strictVersions().get() }
+                            }
+                        }
+                    }
+                }
             }
 
             tasks.named("check") {
@@ -71,12 +83,16 @@ subprojects {
         )
     }
 
-    extensions.configure(IndraExtension::class) {
+    with(indra) {
         github("SpongePowered", "SpongeGradle") {
             ci(true)
             publishing(true)
         }
         mitLicense()
+
+        javaVersions {
+            testWith().addAll(testTargets)
+        }
 
         configurePublications {
             pom {
