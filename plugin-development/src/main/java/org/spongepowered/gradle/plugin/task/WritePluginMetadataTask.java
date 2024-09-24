@@ -174,6 +174,8 @@ public abstract class WritePluginMetadataTask extends DefaultTask {
 
             builder.addDependency(dependencyBuilder.build());
         }
+
+        builder.properties(src.getProperties().get());
         return builder;
     }
 }
