@@ -85,4 +85,8 @@ public class PluginConfiguration extends PluginInheritableConfiguration implemen
         this.description.set(description);
     }
 
+    public void guiceModule(final String guiceModule) {
+        this.property("guice-module", guiceModule);
+    }
+
 }

@@ -17,7 +17,11 @@ sponge {
         displayName("Example")
         version("0.1")
         entrypoint("org.spongepowered.example.Example")
+        guiceModule("org.spongepowered.example.ExampleModule")
         description("Just testing things...")
+        property("boolean-property", true)
+        property("int-property", 3)
+        property("string-property", "test")
         links {
             homepage("https://spongepowered.org")
             source("https://spongepowered.org/source")

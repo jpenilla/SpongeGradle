@@ -27,6 +27,7 @@ package org.spongepowered.gradle.plugin.config;
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.model.ObjectFactory;
+import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Nested;
@@ -46,6 +47,8 @@ public abstract class PluginInheritableConfiguration {
 
     private final NamedDomainObjectContainer<PluginDependencyConfiguration> dependencies;
 
+    private final MapProperty<String, Object> properties;
+
 
     @Inject
     public PluginInheritableConfiguration(final ObjectFactory objects) {
@@ -55,6 +58,7 @@ public abstract class PluginInheritableConfiguration {
 
         this.contributors = objects.domainObjectContainer(PluginContributorConfiguration.class);
         this.dependencies = objects.domainObjectContainer(PluginDependencyConfiguration.class);
+        this.properties = objects.mapProperty(String.class, Object.class);
     }
 
     @Input
@@ -109,5 +113,15 @@ public abstract class PluginInheritableConfiguration {
 
     public void dependency(final String name, final Action<? super PluginDependencyConfiguration> action) {
         this.dependencies.register(name, action);
+    }
+
+    @Input
+    @Optional
+    public MapProperty<String, Object> getProperties() {
+        return this.properties;
+    }
+
+    public void property(final String key, final Object value) {
+        this.properties.put(key, value);
     }
 }

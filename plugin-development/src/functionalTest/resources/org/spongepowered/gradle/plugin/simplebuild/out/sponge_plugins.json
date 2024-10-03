@@ -30,7 +30,13 @@
           "load-order": "after",
           "optional": false
         }
-      ]
+      ],
+      "properties": {
+        "guice-module": "org.spongepowered.example.ExampleModule",
+        "boolean-property": "true",
+        "int-property": "3",
+        "string-property": "test"
+      }
     }
   ]
 }
