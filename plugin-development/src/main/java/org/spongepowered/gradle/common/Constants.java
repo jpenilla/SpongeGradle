@@ -53,6 +53,7 @@ public final class Constants {
 
     public static final class Plugins {
         public static final List<String> SHADOW_PLUGIN_IDS = Collections.unmodifiableList(Arrays.asList(
+                "com.gradleup.shadow",
                 "com.github.johnrengelman.shadow",
                 "io.github.goooler.shadow"
         ));
